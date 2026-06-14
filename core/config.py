@@ -1,6 +1,7 @@
 from dataclasses import dataclass
-import os
 from dotenv import load_dotenv
+
+import os
 
 load_dotenv()
 
@@ -13,6 +14,7 @@ class Settings:
         "Medicine side-effect and interaction checker powered by FDA data and Claude AI",
     )
     app_version: str = os.getenv("APP_VERSION", "1.0.0")
+    database_url: str = os.getenv("DATABASE_URL", "")
 
 
 def get_settings() -> Settings:
