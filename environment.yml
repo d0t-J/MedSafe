@@ -7,7 +7,6 @@ dependencies:
     - pip:
           - fastapi
           - uvicorn[standard]
-          - streamlit
           - httpx
           - anthropic
           - python-dotenv
