@@ -1,0 +1,14 @@
+name: medsafe
+channels:
+    - conda-forge
+dependencies:
+    - python=3.11
+    - pip
+    - pip:
+          - fastapi
+          - uvicorn[standard]
+          - streamlit
+          - httpx
+          - anthropic
+          - python-dotenv
+          - pydantic
