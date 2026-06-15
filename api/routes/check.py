@@ -1,5 +1,9 @@
 from fastapi import APIRouter, HTTPException
 
+from sqlalchemy.orm import Session
+from core.database import SessionLocal
+from repositories.drug_check import create_drug_check
+
 from schemas.drug import DrugCheckRequest
 from services.drug.service import fetch_multiple_drugs
 from services.ai.service import analyze_drugs
@@ -37,6 +41,18 @@ def check_drugs(request: DrugCheckRequest):
 
     try:
         analysis = analyze_drugs(drug_data)
+        if request.visitor_id:
+            db: Session = SessionLocal()
+
+            try:
+                create_drug_check(
+                    db=db,
+                    visitor_id=request.visitor_id,
+                    drugs=cleaned_drugs,
+                    analysis=analysis,
+                )
+            finally:
+                db.close()
     except Exception as exc:
         raise HTTPException(
             status_code=503,

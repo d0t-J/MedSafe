@@ -626,6 +626,29 @@
         </footer>
 
         <script>
+            let visitorId = null;
+
+            async function initializeVisitor() {
+                visitorId = localStorage.getItem("visitor_id");
+
+                const response = await fetch("/api/visitors/bootstrap", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        visitor_id: visitorId,
+                    }),
+                });
+                const data = await response.json();
+
+                visitorId = data.visitor_id;
+
+                localStorage.setItem("visitor_id", visitorId);
+            }
+
+            initializeVisitor();
+
             // ── FILL EXAMPLE ──
             function fillExample(text) {
                 document.getElementById("drugInput").value = text;
@@ -672,7 +695,7 @@
                     const response = await fetch("/api/check", {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ drugs }),
+                        body: JSON.stringify({ drug, visitor_id: visitorId }),
                     });
 
                     const data = await response.json();
