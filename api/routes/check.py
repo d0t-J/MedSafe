@@ -41,18 +41,6 @@ def check_drugs(request: DrugCheckRequest):
 
     try:
         analysis = analyze_drugs(drug_data)
-        if request.visitor_id:
-            db: Session = SessionLocal()
-
-            try:
-                create_drug_check(
-                    db=db,
-                    visitor_id=request.visitor_id,
-                    drugs=cleaned_drugs,
-                    analysis=analysis,
-                )
-            finally:
-                db.close()
     except Exception as exc:
         raise HTTPException(
             status_code=503,
