@@ -1,9 +1,5 @@
 from fastapi import APIRouter, HTTPException
 
-from sqlalchemy.orm import Session
-from core.database import SessionLocal
-from repositories.drug_check import create_drug_check
-
 from schemas.drug import DrugCheckRequest
 from services.drug.service import fetch_multiple_drugs
 from services.ai.service import analyze_drugs

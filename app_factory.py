@@ -4,8 +4,6 @@ from fastapi.staticfiles import StaticFiles
 
 from api.routes.health import router as health_router
 from api.routes.check import router as check_router
-from api.routes.users import router as create_user
-from api.routes.visitors import router as visitors_router
 from core.config import get_settings
 
 
@@ -31,7 +29,5 @@ def create_app() -> FastAPI:
 
     app.include_router(health_router)
     app.include_router(check_router)
-    app.include_router(create_user)
-    app.include_router(visitors_router)
 
     return app
