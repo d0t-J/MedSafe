@@ -30,3 +30,12 @@ def get_user_history(uid: str, limit: int = 20):
         item["id"] = doc.id
         results.append(item)
     return results
+
+def increment_search_count(uid: str):
+    db = get_firestore_client()
+
+    db.collection("users").document(uid).update(
+        {
+            "search_count": firestore.Increment(1)
+        }
+    )

@@ -5,6 +5,7 @@ from fastapi.staticfiles import StaticFiles
 from api.routes.health import router as health_router
 from api.routes.check import router as check_router
 from api.routes.auth import router as auth_router
+from api.routes.history import router as history_router
 
 from core.config import get_settings
 
@@ -32,5 +33,6 @@ def create_app() -> FastAPI:
     app.include_router(health_router)
     app.include_router(check_router)
     app.include_router(auth_router)
+    app.include_router(history_router)
 
     return app

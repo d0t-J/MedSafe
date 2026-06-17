@@ -4,7 +4,7 @@ from schemas.drug import DrugCheckRequest
 from services.drug.service import fetch_multiple_drugs
 from services.ai.service import analyze_drugs
 from core.firebase import verify_firebase_id_token
-from services.firestore.history_service import save_user_history
+from services.firestore.history_service import save_user_history, increment_search_count
 from services.firestore.profile_service import upsert_user_profile
 
 router = APIRouter(prefix="/api", tags=["drug-check"])
@@ -55,6 +55,7 @@ def check_drugs(request: DrugCheckRequest, authorization: str | None = Header(de
             name = decoded.get("name")
             upsert_user_profile(uid=uid, email=email, name=name)
             save_user_history(uid=uid, drugs=cleaned_drugs, analysis=analysis)
-        except Exception:
-            pass
+            increment_search_count(uid)
+        except Exception as exc:
+            print(f"Firestore save failed: {exc}")
     return {"analysis": analysis, "drug_data": drug_data}
