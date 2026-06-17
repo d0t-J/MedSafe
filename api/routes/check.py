@@ -1,14 +1,17 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Header
 
 from schemas.drug import DrugCheckRequest
 from services.drug.service import fetch_multiple_drugs
 from services.ai.service import analyze_drugs
+from core.firebase import verify_firebase_id_token
+from services.firestore.history_service import save_user_history
+from services.firestore.profile_service import upsert_user_profile
 
 router = APIRouter(prefix="/api", tags=["drug-check"])
 
 
 @router.post("/check")
-def check_drugs(request: DrugCheckRequest):
+def check_drugs(request: DrugCheckRequest, authorization: str | None = Header(default=None)):
     """Main endpoint for single and multi-drug safety checks."""
     if len(request.drugs) == 0:
         raise HTTPException(
@@ -43,4 +46,15 @@ def check_drugs(request: DrugCheckRequest):
             detail=f"Failed to get AI analysis. Please try again. Error: {str(exc)}",
         ) from exc
 
+    if authorization and authorization.startswith("Bearer "):
+        token = authorization.split(" ")[1]
+        try:
+            decoded = verify_firebase_id_token(token)
+            uid = decoded.get("uid")
+            email = decoded.get("email")
+            name = decoded.get("name")
+            upsert_user_profile(uid=uid, email=email, name=name)
+            save_user_history(uid=uid, drugs=cleaned_drugs, analysis=analysis)
+        except Exception:
+            pass
     return {"analysis": analysis, "drug_data": drug_data}
