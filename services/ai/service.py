@@ -74,7 +74,7 @@ def analyze_drug(drug: dict) -> str:
     )
 
     message = client.messages.create(
-        model="claude-sonnet-4-20250514",
+        model="claude-sonnet-4-5",
         max_tokens=1500,
         system="""You are MedSafe, a helpful medical information assistant. Your job is to help users understand the safety information of their medicine using official FDA drug label data.
 
@@ -135,7 +135,7 @@ def analyze_interaction(drug_list: list[dict]) -> str:
     names_string = " and ".join(drug_names)
 
     message = client.messages.create(
-        model="claude-sonnet-4-20250514",
+        model="claude-sonnet-4-5",
         max_tokens=1000,
         system="""You are MedSafe, a medical interaction specialist. Your ONLY job in this response is to analyze potential interactions between the drugs provided.
 
