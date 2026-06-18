@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Sign in — MedSafe</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            *,
+            *::before,
+            *::after {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            :root {
+                --bg: #0a1628;
+                --card: #111f38;
+                --card2: #162040;
+                --border: #1e3a5f;
+                --teal: #00c9b1;
+                --teal-dark: #00a896;
+                --text: #e8f0fe;
+                --muted: #7a9cc0;
+                --error: #ff6b6b;
+                --radius: 14px;
+            }
+            body {
+                background: var(--bg);
+                color: var(--text);
+                font-family: "DM Sans", sans-serif;
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                padding: 20px;
+            }
+            .logo {
+                font-family: "DM Serif Display", serif;
+                font-size: 2.2rem;
+                background: linear-gradient(135deg, #00c9b1, #7eb8f7);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                margin-bottom: 8px;
+                text-align: center;
+            }
+            .sub {
+                color: var(--muted);
+                font-size: 0.9rem;
+                margin-bottom: 32px;
+                text-align: center;
+            }
+            .card {
+                background: var(--card);
+                border: 1px solid var(--border);
+                border-radius: var(--radius);
+                padding: 36px 32px;
+                width: 100%;
+                max-width: 400px;
+            }
+            .card h2 {
+                font-size: 1.3rem;
+                margin-bottom: 24px;
+                font-weight: 600;
+            }
+            label {
+                display: block;
+                font-size: 0.83rem;
+                color: var(--muted);
+                margin-bottom: 6px;
+            }
+            input[type="email"],
+            input[type="password"] {
+                width: 100%;
+                background: var(--bg);
+                border: 1.5px solid var(--border);
+                border-radius: 10px;
+                padding: 12px 16px;
+                color: var(--text);
+                font-family: "DM Sans", sans-serif;
+                font-size: 0.95rem;
+                outline: none;
+                margin-bottom: 16px;
+                transition: border-color 0.2s;
+            }
+            input:focus {
+                border-color: var(--teal);
+            }
+            input::placeholder {
+                color: var(--muted);
+            }
+            .btn-primary {
+                width: 100%;
+                background: linear-gradient(135deg, var(--teal), #00a896);
+                color: #0a1628;
+                font-family: "DM Sans", sans-serif;
+                font-weight: 600;
+                font-size: 0.97rem;
+                border: none;
+                border-radius: 10px;
+                padding: 13px;
+                cursor: pointer;
+                transition: opacity 0.2s;
+                margin-bottom: 12px;
+            }
+            .btn-primary:hover {
+                opacity: 0.88;
+            }
+            .btn-primary:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+            }
+            .divider {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                margin: 4px 0 12px;
+                color: var(--muted);
+                font-size: 0.8rem;
+            }
+            .divider::before,
+            .divider::after {
+                content: "";
+                flex: 1;
+                height: 1px;
+                background: var(--border);
+            }
+            .btn-google {
+                width: 100%;
+                background: var(--card2);
+                border: 1px solid var(--border);
+                color: var(--text);
+                font-family: "DM Sans", sans-serif;
+                font-size: 0.95rem;
+                border-radius: 10px;
+                padding: 12px;
+                cursor: pointer;
+                transition: border-color 0.2s;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+            }
+            .btn-google:hover {
+                border-color: var(--teal);
+            }
+            .error-msg {
+                display: none;
+                background: rgba(255, 107, 107, 0.1);
+                border: 1px solid var(--error);
+                color: var(--error);
+                border-radius: 8px;
+                padding: 10px 14px;
+                font-size: 0.85rem;
+                margin-bottom: 14px;
+            }
+            .toggle-mode {
+                text-align: center;
+                margin-top: 18px;
+                font-size: 0.85rem;
+                color: var(--muted);
+            }
+            .toggle-mode a {
+                color: var(--teal);
+                cursor: pointer;
+                text-decoration: none;
+            }
+            .toggle-mode a:hover {
+                text-decoration: underline;
+            }
+            .back-link {
+                margin-top: 20px;
+                font-size: 0.83rem;
+                color: var(--muted);
+                text-decoration: none;
+            }
+            .back-link:hover {
+                color: var(--teal);
+            }
+        </style>
+    </head>
+    <body>
+        <div class="logo">💊 MedSafe</div>
+        <p class="sub">Sign in to save your search history</p>
+
+        <div class="card">
+            <h2 id="formTitle">Sign in</h2>
+            <div class="error-msg" id="errorMsg"></div>
+
+            <label for="emailInput">Email</label>
+            <input type="email" id="emailInput" placeholder="you@example.com" />
+
+            <label for="passInput">Password</label>
+            <input type="password" id="passInput" placeholder="••••••••" />
+
+            <button class="btn-primary" id="submitBtn" onclick="handleSubmit()">
+                Sign in
+            </button>
+
+            <div class="divider">or</div>
+
+            <button class="btn-google" onclick="handleGoogle()">
+                <svg width="18" height="18" viewBox="0 0 48 48">
+                    <path
+                        fill="#FFC107"
+                        d="M43.6 20H24v8h11.3C33.6 33.1 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 3l5.7-5.7C34.1 6.5 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20c11 0 19.6-8 19.6-20 0-1.3-.1-2.7-.4-4z"
+                    />
+                    <path
+                        fill="#FF3D00"
+                        d="M6.3 14.7l6.6 4.8C14.6 16 19 13 24 13c3 0 5.8 1.1 7.9 3l5.7-5.7C34.1 6.5 29.3 4 24 4 16.3 4 9.6 8.3 6.3 14.7z"
+                    />
+                    <path
+                        fill="#4CAF50"
+                        d="M24 44c5.2 0 10-1.9 13.6-5.1l-6.3-5.2C29.5 35.5 26.9 36 24 36c-5.3 0-9.6-3-11.3-7.3l-6.6 5.1C9.5 39.5 16.3 44 24 44z"
+                    />
+                    <path
+                        fill="#1976D2"
+                        d="M43.6 20H24v8h11.3c-.9 2.5-2.6 4.6-4.7 6l6.3 5.2C40.6 35.6 44 30.2 44 24c0-1.3-.1-2.7-.4-4z"
+                    />
+                </svg>
+                Continue with Google
+            </button>
+
+            <div class="toggle-mode">
+                <span id="toggleText">Don't have an account?</span>
+                <a onclick="toggleMode()" id="toggleLink">Sign up</a>
+            </div>
+        </div>
+
+        <a href="/" class="back-link">← Back to MedSafe</a>
+
+        <script type="module">
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+            import {
+                getAuth,
+                onAuthStateChanged,
+                signInWithEmailAndPassword,
+                createUserWithEmailAndPassword,
+                GoogleAuthProvider,
+                signInWithPopup,
+                updateProfile,
+            } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+            const firebaseConfig = {
+                apiKey: "AIzaSyC2pgNxElTmsAvDE1dVzKty4W46rWXQq1M",
+                authDomain: "medsafe-2abab.firebaseapp.com",
+                projectId: "medsafe-2abab",
+                storageBucket: "medsafe-2abab.firebasestorage.app",
+                messagingSenderId: "321634603244",
+                appId: "1:321634603244:web:3cdb6641e936e2763a95c9",
+            };
+
+            const app = initializeApp(firebaseConfig);
+            const auth = getAuth(app);
+            const provider = new GoogleAuthProvider();
+
+            // Already logged in → go home
+            onAuthStateChanged(auth, (user) => {
+                if (user) window.location.href = "/";
+            });
+
+            let isSignUp = false;
+
+            window.toggleMode = function () {
+                isSignUp = !isSignUp;
+                document.getElementById("formTitle").textContent = isSignUp
+                    ? "Create account"
+                    : "Sign in";
+                document.getElementById("submitBtn").textContent = isSignUp
+                    ? "Sign up"
+                    : "Sign in";
+                document.getElementById("toggleText").textContent = isSignUp
+                    ? "Already have an account?"
+                    : "Don't have an account?";
+                document.getElementById("toggleLink").textContent = isSignUp
+                    ? "Sign in"
+                    : "Sign up";
+                hideError();
+            };
+
+            window.handleSubmit = async function () {
+                const email = document
+                    .getElementById("emailInput")
+                    .value.trim();
+                const pass = document.getElementById("passInput").value;
+                if (!email || !pass) {
+                    showError("Enter email and password.");
+                    return;
+                }
+
+                const btn = document.getElementById("submitBtn");
+                btn.disabled = true;
+                hideError();
+
+                try {
+                    if (isSignUp) {
+                        await createUserWithEmailAndPassword(auth, email, pass);
+                    } else {
+                        await signInWithEmailAndPassword(auth, email, pass);
+                    }
+                    window.location.href = "/";
+                } catch (e) {
+                    showError(friendlyError(e.code));
+                } finally {
+                    btn.disabled = false;
+                }
+            };
+
+            window.handleGoogle = async function () {
+                hideError();
+                try {
+                    await signInWithPopup(auth, provider);
+                    window.location.href = "/";
+                } catch (e) {
+                    showError(friendlyError(e.code));
+                }
+            };
+
+            // Submit on Enter
+            document
+                .getElementById("passInput")
+                .addEventListener("keydown", (e) => {
+                    if (e.key === "Enter") window.handleSubmit();
+                });
+
+            function showError(msg) {
+                const el = document.getElementById("errorMsg");
+                el.textContent = msg;
+                el.style.display = "block";
+            }
+            function hideError() {
+                document.getElementById("errorMsg").style.display = "none";
+            }
+            function friendlyError(code) {
+                const map = {
+                    "auth/invalid-email": "Invalid email address.",
+                    "auth/user-not-found": "No account with that email.",
+                    "auth/wrong-password": "Incorrect password.",
+                    "auth/email-already-in-use":
+                        "Email already in use. Sign in instead.",
+                    "auth/weak-password":
+                        "Password must be at least 6 characters.",
+                    "auth/popup-closed-by-user": "Google sign-in cancelled.",
+                    "auth/invalid-credential": "Incorrect email or password.",
+                };
+                return map[code] || "Something went wrong. Try again.";
+            }
+        </script>
+    </body>
+</html>

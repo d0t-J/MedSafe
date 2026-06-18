@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 
 from api.routes.health import router as health_router
 from api.routes.check import router as check_router
@@ -28,11 +29,23 @@ def create_app() -> FastAPI:
         allow_headers=["*"],
     )
 
-    app.mount("/static", StaticFiles(directory="static"), name="static")
-
     app.include_router(health_router)
     app.include_router(check_router)
     app.include_router(auth_router)
     app.include_router(history_router)
+
+    @app.get("/", include_in_schema=False)
+    def index():
+        return FileResponse("static/index.html")
+
+    @app.get("/login", include_in_schema=False)
+    def login():
+        return FileResponse("static/login.html")
+
+    @app.get("/profile", include_in_schema=False)
+    def profile():
+        return FileResponse("static/profile.html")
+
+    app.mount("/static", StaticFiles(directory="static"), name="static")
 
     return app

@@ -16,6 +16,14 @@
             "dest": "/static/index.html"
         },
         {
+            "src": "/login",
+            "dest": "/static/login.html"
+        },
+        {
+            "src": "/profile",
+            "dest": "/static/profile.html"
+        },
+        {
             "src": "/static/(.*)",
             "dest": "/static/$1"
         }
